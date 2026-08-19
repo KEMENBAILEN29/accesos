@@ -23,7 +23,6 @@
   }
 
   * { box-sizing: border-box; }
-  
   html { scroll-behavior: smooth; }
 
   body {
@@ -32,12 +31,35 @@
     background: var(--bg); color: var(--text); line-height: 1.5;
   }
 
+  /* PANTALLA DE LOGIN */
+  #login-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg); display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 20px;
+  }
+  .login-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; max-width: 400px; width: 100%; box-shadow: var(--shadow-md); text-align: center;
+  }
+  .login-card h2 { margin-top: 0; font-size: 1.4rem; color: var(--text); }
+  .login-card input {
+    width: 100%; padding: 12px; margin: 12px 0; border: 1px solid var(--border);
+    border-radius: 8px; font-size: 1rem; outline: none;
+  }
+  .login-card button {
+    width: 100%; padding: 12px; background: var(--link); color: white; border: none;
+    border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s;
+  }
+  .login-card button:hover { background: var(--link-hover); }
+  #login-error { color: #dc2626; font-size: 0.88rem; margin-top: 10px; display: none; }
+
+  /* CONTENIDO PRINCIPAL OCULTO */
+  #protected-content { display: none; }
+
   header {
     background: var(--panel); border-bottom: 1px solid var(--border);
-    padding: 24px 32px; position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 24px 32px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-
   .header-container { max-width: 1200px; margin: 0 auto; }
   header h1 { margin: 0 0 6px 0; font-size: 1.6rem; color: var(--text); font-weight: 700; }
   header p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
@@ -45,13 +67,10 @@
   .search-wrap { margin-top: 16px; }
   #search {
     width: 100%; max-width: 450px; padding: 10px 16px; border: 1px solid var(--border);
-    border-radius: 10px; font-size: 0.95rem; background: var(--bg); color: var(--text);
-    transition: all 0.2s ease; outline: none;
+    border-radius: 10px; font-size: 0.95rem; background: var(--bg); color: var(--text); outline: none;
+    transition: all 0.2s;
   }
-  #search:focus {
-    background: var(--panel); border-color: var(--link);
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-  }
+  #search:focus { background: var(--panel); border-color: var(--link); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
 
   .notice {
     max-width: 1200px; margin: 24px auto 0 auto; padding: 14px 20px; 
@@ -59,44 +78,27 @@
     border-radius: 12px; color: var(--warn); font-size: 0.9rem; font-weight: 500;
   }
 
-  nav.toc {
-    max-width: 1200px; margin: 20px auto; padding: 0 32px; display: flex; flex-wrap: wrap; gap: 8px;
-  }
+  nav.toc { max-width: 1200px; margin: 20px auto; padding: 0 32px; display: flex; flex-wrap: wrap; gap: 8px; }
   .navlink {
     padding: 6px 14px; background: var(--panel); border: 1px solid var(--border);
-    border-radius: 999px; font-size: 0.85rem; color: var(--text); text-decoration: none;
-    transition: all 0.2s ease; font-weight: 500;
+    border-radius: 999px; font-size: 0.85rem; color: var(--text); text-decoration: none; font-weight: 500;
+    transition: all 0.2s;
   }
   .navlink:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
 
   main { padding: 8px 32px 60px 32px; max-width: 1200px; margin: 0 auto; }
-  
   section.cat {
     background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-    padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow);
-    transition: box-shadow 0.2s ease;
+    padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow); transition: box-shadow 0.2s;
   }
   section.cat:hover { box-shadow: var(--shadow-md); }
-
-  section.cat h2 {
-    margin: 0 0 6px 0; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; color: var(--text);
-  }
-  
-  .count {
-    font-size: 0.75rem; color: var(--text-muted); background: var(--bg);
-    border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; font-weight: 600;
-  }
-
+  section.cat h2 { margin: 0 0 6px 0; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
+  .count { font-size: 0.75rem; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; font-weight: 600; }
   p.intro { color: var(--text-muted); font-size: 0.88rem; margin: 4px 0 16px 0; }
-
+  
   .table-responsive { width: 100%; overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
-  
-  th {
-    padding: 10px 12px; color: var(--text-muted); font-weight: 600;
-    border-bottom: 2px solid var(--border); font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em;
-  }
-  
+  th { padding: 10px 12px; color: var(--text-muted); font-weight: 600; border-bottom: 2px solid var(--border); font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em; }
   td { padding: 12px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background-color: rgba(247, 248, 250, 0.7); }
@@ -104,66 +106,69 @@
   .col-name { width: 34%; font-weight: 600; }
   .col-note { width: 36%; color: var(--text-muted); }
   .col-access { width: 30%; }
-
   a { color: var(--link); text-decoration: none; font-weight: 500; }
   a:hover { color: var(--link-hover); text-decoration: underline; }
-
-  ul.accounts { margin: 8px 0 0 0; padding-left: 18px; font-weight: 400; font-size: 0.83rem; color: var(--text-muted); }
+  
+  ul.accounts { margin: 8px 0 0 0; padding-left: 18px; font-size: 0.83rem; color: var(--text-muted); }
   ul.accounts li { margin-bottom: 4px; }
   .persona { color: var(--text); font-weight: 500; }
-  .email { color: var(--text-muted); }
-
   .access { font-size: 0.83rem; color: var(--accent); font-weight: 500; }
   .access.none { color: var(--text-muted); font-weight: normal; }
-
+  
   tr.hidden, section.hidden { display: none !important; }
-
-  #no-results {
-    display: none; text-align: center; padding: 40px; color: var(--text-muted); font-size: 1.1rem;
-  }
-
   footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 30px 20px; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-container">
-    <h1>Favoritos y accesos — Kemen Acompaña</h1>
-    <p>Webs de uso habitual, clasificadas por empresa/área. Las contraseñas no están aquí: cada recurso indica dónde encontrar la entrada correspondiente en KeePass (KEMEN.kdbx).</p>
-    <div class="search-wrap">
-      <input id="search" type="search" placeholder="Buscar por nombre, persona o web..." autocomplete="off">
-    </div>
+<!-- Pantalla de Login -->
+<div id="login-screen">
+  <div class="login-card">
+    <h2>Acceso Restringido</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">Introduce la clave de acceso para continuar</p>
+    <input type="password" id="pass-input" placeholder="Contraseña">
+    <button onclick="checkAuth()">Entrar</button>
+    <div id="login-error">Contraseña incorrecta</div>
   </div>
-</header>
-
-<div class="notice">
-  Por seguridad, esta página no contiene contraseñas ni datos como DNI, IPs internas o códigos PUK.
-  Cada fila indica en qué grupo/entrada de KeePass está la credencial real.
 </div>
 
-<nav class="toc">
-  <a href="#sec-kemen-acompaña" class="navlink">Kemen Acompaña</a>
-  <a href="#sec-restaurante-manhu" class="navlink">Restaurante Manhu</a>
-  <a href="#sec-constructora-humanizadora" class="navlink">Constructora Humanizadora</a>
-  <a href="#sec-codi---formación" class="navlink">CODI · Formación</a>
-  <a href="#sec-contabilidad---gestoría" class="navlink">Contabilidad / Gestoría</a>
-  <a href="#sec-informática-interna--infraestructura" class="navlink">Informática interna</a>
-  <a href="#sec-administración-pública" class="navlink">Administración Pública</a>
-  <a href="#sec-laboral---rrhh" class="navlink">Laboral / RRHH</a>
-  <a href="#sec-legal" class="navlink">Legal</a>
-  <a href="#sec-microsoft-365---sharepoint" class="navlink">Microsoft 365 / SharePoint</a>
-  <a href="#sec-google-workspace---cuentas-google" class="navlink">Google Workspace</a>
-  <a href="#sec-herramientas-de-trabajo" class="navlink">Herramientas de trabajo</a>
-  <a href="#sec-inteligencia-artificial" class="navlink">Inteligencia Artificial</a>
-  <a href="#sec-telefonía" class="navlink">Telefonía</a>
-</nav>
+<!-- Contenido Protegido -->
+<div id="protected-content">
+  <header>
+    <div class="header-container">
+      <h1>Favoritos y accesos — Kemen Acompaña</h1>
+      <p>Webs de uso habitual, clasificadas por empresa/área. Las contraseñas no están aquí: cada recurso indica dónde encontrar la entrada correspondiente en KeePass (KEMEN.kdbx).</p>
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="Buscar por nombre, persona o web..." autocomplete="off">
+      </div>
+    </div>
+  </header>
 
-<main>
-    <div id="no-results">No se encontraron accesos ni recursos que coincidan con la búsqueda.</div>
+  <div class="notice">
+    Por seguridad, esta página no contiene contraseñas ni datos como DNI, IPs internas o códigos PUK.
+    Cada fila indica en qué grupo/entrada de KeePass está la credencial real.
+  </div>
 
+  <nav class="toc">
+    <a href="#sec-kemen-acompaña" class="navlink">Kemen Acompaña</a>
+    <a href="#sec-restaurante-manhu" class="navlink">Restaurante Manhu</a>
+    <a href="#sec-constructora-humanizadora" class="navlink">Constructora Humanizadora</a>
+    <a href="#sec-codi---formación" class="navlink">CODI · Formación</a>
+    <a href="#sec-contabilidad---gestoría" class="navlink">Contabilidad / Gestoría</a>
+    <a href="#sec-informática-interna--infraestructura" class="navlink">Informática interna</a>
+    <a href="#sec-administración-pública" class="navlink">Administración Pública</a>
+    <a href="#sec-laboral---rrhh" class="navlink">Laboral / RRHH</a>
+    <a href="#sec-legal" class="navlink">Legal</a>
+    <a href="#sec-microsoft-365---sharepoint" class="navlink">Microsoft 365 / SharePoint</a>
+    <a href="#sec-google-workspace---cuentas-google" class="navlink">Google Workspace</a>
+    <a href="#sec-herramientas-de-trabajo" class="navlink">Herramientas de trabajo</a>
+    <a href="#sec-inteligencia-artificial" class="navlink">Inteligencia Artificial</a>
+    <a href="#sec-telefonía" class="navlink">Telefonía</a>
+  </nav>
+
+  <main>
     <section class="cat" id="sec-kemen-acompaña">
-      <h2>Kemen Acompaña <span class="count" data-original="5">5</span></h2>
+      <h2>Kemen Acompaña <span class="count">5</span></h2>
       <div class="table-responsive">
         <table>
           <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
@@ -198,54 +203,309 @@
       </div>
     </section>
 
-    <!-- Puedes continuar el resto de secciones con la clase wrapper 'table-responsive' en cada tabla -->
-</main>
+    <section class="cat" id="sec-restaurante-manhu">
+      <h2>Restaurante Manhu <span class="count">4</span></h2>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="col-name"><a href="https://restaurantemanhu.com/wp-admin" target="_blank" rel="noopener">Web corporativa (WordPress)</a><ul class="accounts"><li><span class="persona">Info</span> — <span class="email">info@restaurantemanhu.com</span></li></ul></td>
+              <td class="col-note">Panel de administración de restaurantemanhu.com</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Manhu / Página web MANHU</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://webmail.restaurantemanhu.com/" target="_blank" rel="noopener">Webmail corporativo</a><ul class="accounts"><li><span class="persona">Adriana (administración)</span> — <span class="email">administracion@restaurantemanhu.com</span></li><li><span class="persona">Facturas</span> — <span class="email">facturas@restaurantemanhu.com</span></li><li><span class="persona">Verónica</span> — <span class="email">veronica.moratalla@restaurantemanhu.com</span></li></ul></td>
+              <td class="col-note">Correo @restaurantemanhu.com por persona/área</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Manhu / Correo corporativo (por persona)</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://mail.google.com/" target="_blank" rel="noopener">Gmail (cuentas de gestión)</a><ul class="accounts"><li><span class="persona">Gestión</span> — <span class="email">gestionesmanhu@gmail.com</span></li><li><span class="persona">Manjarque y Vida</span> — <span class="email">manhumanjarquedavida@gmail.com</span></li></ul></td>
+              <td class="col-note">Cuentas Gmail de gestión del restaurante</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Manhu / Gmail</span></td>
+            </tr>
+            <tr>
+              <td class="col-name">Costco<ul class="accounts"><li><span class="persona">Gestión</span> — <span class="email">gestionesmanhu@gmail.com</span></li></ul></td>
+              <td class="col-note">Cuenta de proveedor (compras)</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Manhu / Costco</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-<footer>Generado a partir del listado de favoritos y de KEMEN.kdbx (solo metadatos, sin contraseñas).</footer>
+    <section class="cat" id="sec-constructora-humanizadora">
+      <h2>Constructora Humanizadora <span class="count">3</span></h2>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="col-name"><a href="https://constructorahumanizadora.com/wp-admin/" target="_blank" rel="noopener">Web corporativa (WordPress)</a></td>
+              <td class="col-note">Panel de administración de constructorahumanizadora.com</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Constructora / (panel de hosting) — ver Informática/Página web CH</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://webmail.constructorahumanizadora.com/" target="_blank" rel="noopener">Webmail corporativo</a><ul class="accounts"><li><span class="persona">Adel</span> — <span class="email">adel.elmejdoubi@constructorahumanizadora.com</span></li><li><span class="persona">Armando</span> — <span class="email">armando.ramirez@constructorahumanizadora.com</span></li><li><span class="persona">Administración</span> — <span class="email">administracion@constructorahumanizadora.com</span></li><li><span class="persona">Facturas</span> — <span class="email">facturas@constructorahumanizadora.com</span></li><li><span class="persona">Sindy</span> — <span class="email">sindy.vanegas@constructorahumanizadora.com</span></li></ul></td>
+              <td class="col-note">Correo @constructorahumanizadora.com por persona/área</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Constructora / Correo corporativo (por persona)</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://mail.google.com/" target="_blank" rel="noopener">Gmail</a><ul class="accounts"><li><span class="persona">General</span> — <span class="email">Construyeyhumaniza@gmail.com</span></li></ul></td>
+              <td class="col-note">Cuenta Gmail de la constructora</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Constructora / Gmail</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-codi---formación">
+      <h2>CODI · Formación <span class="count">2</span></h2>
+      <p class="intro">Acceso mediante DNI/NIE como usuario — por seguridad no se publica el identificador; consultar KeePass.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="col-name"><a href="https://www.formacioncodi.gob.es/login/index.php" target="_blank" rel="noopener">Plataforma CODI (acceso alumnado/administración)</a></td>
+              <td class="col-note">Usuarios con acceso: Administrador, Aleksei, Sindy, Meri, Emmanuel</td>
+              <td class="col-access"><span class="access">KeePass &rarr; CODI / (ver entrada de cada persona)</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://www.formacioncodi.gob.es/local/codi_docente/index.php" target="_blank" rel="noopener">Plataforma CODI (acceso docente)</a></td>
+              <td class="col-note">Acceso de Guadalupe como docente</td>
+              <td class="col-access"><span class="access">KeePass &rarr; CODI / Guadalupe/CODI</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-contabilidad---gestoría">
+      <h2>Contabilidad / Gestoría <span class="count">3</span></h2>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="col-name">Contasol</td>
+              <td class="col-note">Software contable (instalación local)</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Contabilidad/Gestoría / Contasol</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://www.gestores.net/" target="_blank" rel="noopener">Sistema SIGA (gestoría laboral)</a></td>
+              <td class="col-note">Acceso de Zernín</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Contabilidad/Gestoría / SISTEMA SIGA</span></td>
+            </tr>
+            <tr>
+              <td class="col-name">IZENPE — Certificado digital</td>
+              <td class="col-note">Certificado ciudadano de Zernín (incluye código PUK)</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Contabilidad/Gestoría / IZENPE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-informática-interna--infraestructura">
+      <h2>Informática interna (infraestructura) <span class="count">10</span></h2>
+      <p class="intro">Direcciones IP y usuarios de dispositivos internos no se publican aquí por seguridad de red; todo está en KeePass, grupo Informática.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name">Router</td><td class="col-note">Administración del router de la oficina</td><td class="col-access"><span class="access">KeePass &rarr; Informática / Router</span></td></tr>
+            <tr><td class="col-name">Teléfono / centralita IP</td><td class="col-note">Dispositivo de telefonía interna</td><td class="col-access"><span class="access">KeePass &rarr; Informática / Telefono</span></td></tr>
+            <tr><td class="col-name">Cámaras Arlo</td><td class="col-note">Sistema de cámaras</td><td class="col-access"><span class="access">KeePass &rarr; Informática / Arlo</span></td></tr>
+            <tr><td class="col-name">Securitas</td><td class="col-note">Sistema de alarma/seguridad</td><td class="col-access"><span class="access">KeePass &rarr; Informática / Securitas</span></td></tr>
+            <tr><td class="col-name">TPV — Almacén / Bar / Cocina / Congeladores / Entrada / Salón</td><td class="col-note">Terminales punto de venta del restaurante (6 equipos)</td><td class="col-access"><span class="access">KeePass &rarr; Informática / ALMACEN / BAR / COCINA / CONGELADORES / ENTRADA / SALON</span></td></tr>
+            <tr><td class="col-name">Ordenadores del equipo (acceso remoto)</td><td class="col-note">Jaime, Lisbeth, Sindy, Meri, Emmanuel, Alejandra, Irina, Abyoub, Torre, Ana, Alex, Aleksey</td><td class="col-access"><span class="access">KeePass &rarr; Informática / ORDENADOR &lt;nombre&gt;</span></td></tr>
+            <tr><td class="col-name">Red Wi-Fi — Red Norai</td><td class="col-note">Red interna de la oficina</td><td class="col-access"><span class="access">KeePass &rarr; Informática / Red Norai</span></td></tr>
+            <tr><td class="col-name">Red Wi-Fi — Seguridad Manhu</td><td class="col-note">Red del sistema de seguridad del restaurante</td><td class="col-access"><span class="access">KeePass &rarr; Informática / Seguridad Manhu</span></td></tr>
+            <tr><td class="col-name">Red Wi-Fi — Oficinas</td><td class="col-note">Wifi general de oficinas</td><td class="col-access"><span class="access">KeePass &rarr; Informática / WIFI OFICINAS</span></td></tr>
+            <tr><td class="col-name">Librería (recurso interno)</td><td class="col-note">Recurso/carpeta compartida</td><td class="col-access"><span class="access">KeePass &rarr; Informática / LIBRERIA</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-administración-pública">
+      <h2>Administración Pública <span class="count">6</span></h2>
+      <p class="intro">Acceso habitual con Cl@ve o certificado digital, no con usuario/contraseña propios.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://portal.seg-social.gob.es/wps/portal/importass/importass/inicio" target="_blank" rel="noopener">Import@ss — Seguridad Social</a></td><td class="col-note">Gestiones con la Seguridad Social</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.seg-social.es/wps/portal/wss/internet/InformacionUtil/5300/1490" target="_blank" rel="noopener">Seguridad Social — Información útil</a></td><td class="col-note">Consultas generales</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://dehu.redsara.es/es/public" target="_blank" rel="noopener">DEHú — Notificaciones electrónicas</a></td><td class="col-note">Dirección Electrónica Habilitada única</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://appstac.ebizkaia.eus/es/inicio" target="_blank" rel="noopener">eBizkaia — AppsTAC</a></td><td class="col-note">Trámites tributarios Bizkaia</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://batuz.eus/haztufactura/#/" target="_blank" rel="noopener">Batuz — Haz tu Factura</a></td><td class="col-note">Facturación TicketBAI (Bizkaia)</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://egoitza.gipuzkoa.eus/WAS/CORP/WATTramiteakWEB/menu.do?mostrarServicios=#" target="_blank" rel="noopener">Egoitza Gipuzkoa — Trámites</a></td><td class="col-note">Sede electrónica de Gipuzkoa</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-laboral---rrhh">
+      <h2>Laboral / RRHH <span class="count">7</span></h2>
+      <p class="intro">Herramientas de consulta, sin inicio de sesión propio.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://sede.sepe.gob.es/DCertificadosWeb/ActionNavegacion.do?accion=navegacion" target="_blank" rel="noopener">Certificado de empresa (SEPE)</a></td><td class="col-note">Certificados de empresa</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.sistemanacionalempleo.es/HomeSne/empresarios/contrata.html" target="_blank" rel="noopener">Contrat@ (SEPE)</a></td><td class="col-note">Comunicación de contratos</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.poderjudicial.es/cgpj/es/Servicios/Utilidades/Calculo-de-indemnizaciones-por-extincion-de-contrato-de-trabajo/" target="_blank" rel="noopener">Cálculo de indemnizaciones (Poder Judicial)</a></td><td class="col-note">Calculadora oficial</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.calculo-despido.com/#/" target="_blank" rel="noopener">Cálculo de indemnización (alternativa)</a></td><td class="col-note">Calculadora online</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.bizkaia.eus/es/normativa-tributaria/retenciones-de-trabajo" target="_blank" rel="noopener">IRPF — retenciones de trabajo (Bizkaia)</a></td><td class="col-note">Normativa y tablas de retención</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://blog.asinom.com/%C2%BFcomo-se-calcula-la-prestacion-de-it-por-enfermedad-comun-o-accidente-no-laboral/" target="_blank" rel="noopener">Baja por IT — cómo se calcula</a></td><td class="col-note">Artículo de referencia</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://foros.elasesorlaboral.com/" target="_blank" rel="noopener">Foro El Asesor Laboral</a></td><td class="col-note">Foro de consulta laboral</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-legal">
+      <h2>Legal <span class="count">2</span></h2>
+      <p class="intro">Sin credenciales registradas en KeePass — consultar con gerencia.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://areaprivada.legalitas.com/consultations" target="_blank" rel="noopener">Legálitas — Área privada</a></td><td class="col-note">Consultas legales</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://privado.mibufete.com/" target="_blank" rel="noopener">Mi Bufete — Área privada</a></td><td class="col-note">Gestión con el despacho</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-microsoft-365---sharepoint">
+      <h2>Microsoft 365 / SharePoint <span class="count">5</span></h2>
+      <p class="intro">Acceso con la cuenta Microsoft 365 de gerencia (gerencia@asociacionnorai.org).</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://admin.cloud.microsoft/?login_hint=gerencia%40asociacionnorai.onmicrosoft.com&amp;source=applauncher#/homepage" target="_blank" rel="noopener">Panel de administración M365</a></td><td class="col-note">Administración del tenant</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://outlook.cloud.microsoft/mail/?realm=asociacionnorai.org&amp;login_hint=gerencia@asociacionnorai.org" target="_blank" rel="noopener">Outlook</a></td><td class="col-note">Correo de gerencia</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://asociacionnorai-my.sharepoint.com/my" target="_blank" rel="noopener">OneDrive</a></td><td class="col-note">Almacenamiento personal</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://asociacionnorai.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">SharePoint — Inicio</a></td><td class="col-note">Portal de sitios</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://config.office.com/deploymentsettings" target="_blank" rel="noopener">Configuración de despliegue M365 Apps</a></td><td class="col-note">Gestión de instalación de Office</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-google-workspace---cuentas-google">
+      <h2>Google Workspace / Cuentas Google <span class="count">6</span></h2>
+      <p class="intro">Acceso con las cuentas Google indicadas.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://music.youtube.com/" target="_blank" rel="noopener">YouTube Music</a></td><td class="col-note">Música en las instalaciones</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://mail.google.com/mail/u/0/" target="_blank" rel="noopener">Gmail — bandeja gerencia</a></td><td class="col-note">Correo de gerencia</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://drive.google.com/drive/u/0/my-drive" target="_blank" rel="noopener">Google Drive — KA</a></td><td class="col-note">Unidad de Kemen Acompaña</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://drive.google.com/drive/u/2/my-drive" target="_blank" rel="noopener">Google Drive — IT</a></td><td class="col-note">Unidad de informática</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://drive.google.com/drive/u/1/" target="_blank" rel="noopener">Google Drive — gerencia</a></td><td class="col-note">Unidad personal de gerencia</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://docs.google.com/spreadsheets/d/1-TH3RX5T-7cvUxJitenpOXpFULQucONi2VUc6uh9oiY/edit" target="_blank" rel="noopener">Hoja de cálculo RM</a></td><td class="col-note">Documento de seguimiento (RM)</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-herramientas-de-trabajo">
+      <h2>Herramientas de trabajo <span class="count">6</span></h2>
+      <p class="intro">Uso general del equipo, sin credenciales sensibles registradas.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://web.jibble.io/account" target="_blank" rel="noopener">Jibble</a></td><td class="col-note">Control horario</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.appsheet.com/" target="_blank" rel="noopener">AppSheet</a></td><td class="col-note">Apps internas sin código</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.iloveimg.com/es" target="_blank" rel="noopener">iLoveIMG</a></td><td class="col-note">Edición de imágenes</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.ilovepdf.com/es" target="_blank" rel="noopener">iLovePDF</a></td><td class="col-note">Edición de PDF</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://www.canva.com/" target="_blank" rel="noopener">Canva</a></td><td class="col-note">Diseño gráfico</td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://studio.botpress.cloud/" target="_blank" rel="noopener">Botpress Studio</a></td><td class="col-note">Chatbots/automatización</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-inteligencia-artificial">
+      <h2>Inteligencia Artificial <span class="count">6</span></h2>
+      <p class="intro">Cuentas personales o vinculadas a Google — sin credenciales propias registradas.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a></td><td class="col-note"></td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://gemini.google.com/app?hl=es-ES" target="_blank" rel="noopener">Gemini</a></td><td class="col-note"></td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://chat.deepseek.com/" target="_blank" rel="noopener">DeepSeek</a></td><td class="col-note"></td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://chat.qwen.ai/" target="_blank" rel="noopener">Qwen Chat</a></td><td class="col-note"></td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://notebook.google.com/" target="_blank" rel="noopener">NotebookLM</a></td><td class="col-note"></td><td class="col-access"><span class="access none">—</span></td></tr>
+            <tr><td class="col-name"><a href="https://speechgen.io/es/" target="_blank" rel="noopener">Speechgen.io</a></td><td class="col-note">Texto a voz</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cat" id="sec-telefonía">
+      <h2>Telefonía <span class="count">1</span></h2>
+      <p class="intro">Sin credenciales registradas en KeePass.</p>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr><td class="col-name"><a href="https://gestion-centralita.orange.es/login" target="_blank" rel="noopener">Centralita Orange</a></td><td class="col-note">Gestión de la centralita telefónica</td><td class="col-access"><span class="access none">—</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>Generado a partir del listado de favoritos y de KEMEN.kdbx (solo metadatos, sin contraseñas).</footer>
+</div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search');
-    const sections = document.querySelectorAll('section.cat');
-    const noResults = document.getElementById('no-results');
+  // PONE AQUÍ LA CONTRASEÑA QUE QUIERAS
+  const CLAVE_ACCESO = "Kemen2026";
 
-    function filterResults() {
-      const query = searchInput.value.trim().toLowerCase();
-      let totalVisibleSections = 0;
-
-      sections.forEach(section => {
-        const rows = section.querySelectorAll('tbody tr');
-        let visibleRows = 0;
-
-        rows.forEach(row => {
-          const text = row.textContent.toLowerCase();
-          const matches = text.includes(query);
-          row.classList.toggle('hidden', !matches);
-          if (matches) visibleRows++;
-        });
-
-        // Actualizar contador visualmente
-        const countBadge = section.querySelector('.count');
-        if (countBadge) {
-          countBadge.textContent = query ? visibleRows : countBadge.getAttribute('data-original');
-        }
-
-        const isSectionVisible = visibleRows > 0;
-        section.classList.toggle('hidden', !isSectionVisible);
-        if (isSectionVisible) totalVisibleSections++;
-      });
-
-      // Mostrar o ocultar mensaje de "sin resultados"
-      if (noResults) {
-        noResults.style.display = totalVisibleSections === 0 ? 'block' : 'none';
-      }
+  function checkAuth() {
+    const input = document.getElementById('pass-input').value;
+    const errorMsg = document.getElementById('login-error');
+    
+    if (input === CLAVE_ACCESO) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('protected-content').style.display = 'block';
+      sessionStorage.setItem('authenticated', 'true');
+    } else {
+      errorMsg.style.display = 'block';
     }
+  }
 
-    // Debounce para optimizar el rendimiento al escribir
-    let debounceTimer;
-    searchInput.addEventListener('input', () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(filterResults, 150);
+  if (sessionStorage.getItem('authenticated') === 'true') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('protected-content').style.display = 'block';
+  }
+
+  document.getElementById('pass-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') checkAuth();
+  });
+
+  // Buscador dinámico
+  document.getElementById('search').addEventListener('input', function() {
+    const query = this.value.trim().toLowerCase();
+    document.querySelectorAll('section.cat').forEach(sec => {
+      let visible = false;
+      sec.querySelectorAll('tbody tr').forEach(tr => {
+        const match = tr.textContent.toLowerCase().includes(query);
+        tr.classList.toggle('hidden', !match);
+        if (match) visible = true;
+      });
+      sec.classList.toggle('hidden', !visible && query.length > 0);
     });
   });
 </script>
