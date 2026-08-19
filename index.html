@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favoritos y accesos — Kemen Acompaña</title>
+<style>
+  :root {
+    --bg: #f4f6f8;
+    --panel: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --accent: #15803d;
+    --accent-soft: #f0fdf4;
+    --warn: #92400e;
+    --warn-bg: #fef3c7;
+    --warn-border: #fde68a;
+    --link: #0284c7;
+    --link-hover: #0369a1;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  }
+
+  * { box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+  }
+
+  header {
+    background: var(--panel); border-bottom: 1px solid var(--border);
+    padding: 24px 32px; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .header-container { max-width: 1200px; margin: 0 auto; }
+  header h1 { margin: 0 0 6px 0; font-size: 1.6rem; color: var(--text); font-weight: 700; }
+  header p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+  .search-wrap { margin-top: 16px; }
+  #search {
+    width: 100%; max-width: 450px; padding: 10px 16px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 0.95rem; background: var(--bg); color: var(--text);
+    transition: all 0.2s ease; outline: none;
+  }
+  #search:focus {
+    background: var(--panel); border-color: var(--link);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+
+  .notice {
+    max-width: 1200px; margin: 24px auto 0 auto; padding: 14px 20px; 
+    background: var(--warn-bg); border: 1px solid var(--warn-border); 
+    border-radius: 12px; color: var(--warn); font-size: 0.9rem; font-weight: 500;
+  }
+
+  nav.toc {
+    max-width: 1200px; margin: 20px auto; padding: 0 32px; display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .navlink {
+    padding: 6px 14px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 999px; font-size: 0.85rem; color: var(--text); text-decoration: none;
+    transition: all 0.2s ease; font-weight: 500;
+  }
+  .navlink:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+
+  main { padding: 8px 32px 60px 32px; max-width: 1200px; margin: 0 auto; }
+  
+  section.cat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow);
+    transition: box-shadow 0.2s ease;
+  }
+  section.cat:hover { box-shadow: var(--shadow-md); }
+
+  section.cat h2 {
+    margin: 0 0 6px 0; font-size: 1.25rem; display: flex; align-items: center; gap: 10px; color: var(--text);
+  }
+  
+  .count {
+    font-size: 0.75rem; color: var(--text-muted); background: var(--bg);
+    border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; font-weight: 600;
+  }
+
+  p.intro { color: var(--text-muted); font-size: 0.88rem; margin: 4px 0 16px 0; }
+
+  .table-responsive { width: 100%; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+  
+  th {
+    padding: 10px 12px; color: var(--text-muted); font-weight: 600;
+    border-bottom: 2px solid var(--border); font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em;
+  }
+  
+  td { padding: 12px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background-color: rgba(247, 248, 250, 0.7); }
+
+  .col-name { width: 34%; font-weight: 600; }
+  .col-note { width: 36%; color: var(--text-muted); }
+  .col-access { width: 30%; }
+
+  a { color: var(--link); text-decoration: none; font-weight: 500; }
+  a:hover { color: var(--link-hover); text-decoration: underline; }
+
+  ul.accounts { margin: 8px 0 0 0; padding-left: 18px; font-weight: 400; font-size: 0.83rem; color: var(--text-muted); }
+  ul.accounts li { margin-bottom: 4px; }
+  .persona { color: var(--text); font-weight: 500; }
+  .email { color: var(--text-muted); }
+
+  .access { font-size: 0.83rem; color: var(--accent); font-weight: 500; }
+  .access.none { color: var(--text-muted); font-weight: normal; }
+
+  tr.hidden, section.hidden { display: none !important; }
+
+  #no-results {
+    display: none; text-align: center; padding: 40px; color: var(--text-muted); font-size: 1.1rem;
+  }
+
+  footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 30px 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <h1>Favoritos y accesos — Kemen Acompaña</h1>
+    <p>Webs de uso habitual, clasificadas por empresa/área. Las contraseñas no están aquí: cada recurso indica dónde encontrar la entrada correspondiente en KeePass (KEMEN.kdbx).</p>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Buscar por nombre, persona o web..." autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<div class="notice">
+  Por seguridad, esta página no contiene contraseñas ni datos como DNI, IPs internas o códigos PUK.
+  Cada fila indica en qué grupo/entrada de KeePass está la credencial real.
+</div>
+
+<nav class="toc">
+  <a href="#sec-kemen-acompaña" class="navlink">Kemen Acompaña</a>
+  <a href="#sec-restaurante-manhu" class="navlink">Restaurante Manhu</a>
+  <a href="#sec-constructora-humanizadora" class="navlink">Constructora Humanizadora</a>
+  <a href="#sec-codi---formación" class="navlink">CODI · Formación</a>
+  <a href="#sec-contabilidad---gestoría" class="navlink">Contabilidad / Gestoría</a>
+  <a href="#sec-informática-interna--infraestructura" class="navlink">Informática interna</a>
+  <a href="#sec-administración-pública" class="navlink">Administración Pública</a>
+  <a href="#sec-laboral---rrhh" class="navlink">Laboral / RRHH</a>
+  <a href="#sec-legal" class="navlink">Legal</a>
+  <a href="#sec-microsoft-365---sharepoint" class="navlink">Microsoft 365 / SharePoint</a>
+  <a href="#sec-google-workspace---cuentas-google" class="navlink">Google Workspace</a>
+  <a href="#sec-herramientas-de-trabajo" class="navlink">Herramientas de trabajo</a>
+  <a href="#sec-inteligencia-artificial" class="navlink">Inteligencia Artificial</a>
+  <a href="#sec-telefonía" class="navlink">Telefonía</a>
+</nav>
+
+<main>
+    <div id="no-results">No se encontraron accesos ni recursos que coincidan con la búsqueda.</div>
+
+    <section class="cat" id="sec-kemen-acompaña">
+      <h2>Kemen Acompaña <span class="count" data-original="5">5</span></h2>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Recurso</th><th>Uso / notas</th><th>Acceso</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="col-name"><a href="https://kemenacompania.com/wp-admin/" target="_blank" rel="noopener">Web corporativa (WordPress)</a></td>
+              <td class="col-note">Panel de administración de kemenacompania.com</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Kemen / Página web KEMEN (panel de hosting) — usuario web: KeePass &rarr; Informática / Página web KEMEN</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://webmail.kemenacompania.com/" target="_blank" rel="noopener">Webmail corporativo</a><ul class="accounts"><li><span class="persona">Adriana</span> — <span class="email">adriana.mena@kemenacompania.com</span></li><li><span class="persona">Alejandra</span> — <span class="email">alejandra@kemenacompania.com</span></li><li><span class="persona">Emerita (social)</span> — <span class="email">social@kemenacompania.com</span></li><li><span class="persona">Emérita</span> — <span class="email">emerita.duarte@kemenacompania.com</span></li><li><span class="persona">Emmanuel</span> — <span class="email">emmanuel.lopez@kemenacompania.com</span></li><li><span class="persona">Emmanuel (medios)</span> — <span class="email">medios@kemenacompania.com</span></li><li><span class="persona">Info</span> — <span class="email">info@kemenacompania.com</span></li><li><span class="persona">Asesoría</span> — <span class="email">asesoria@kemenacompania.com</span></li><li><span class="persona">Facturas</span> — <span class="email">facturas@kemenacompania.com</span></li><li><span class="persona">Sindy (gestión pisos)</span> — <span class="email">gestionpisos@kemenacompania.com</span></li><li><span class="persona">Zernín</span> — <span class="email">zernin.martinez@kemenacompania.com</span></li><li><span class="persona">Jaime</span> — <span class="email">jaime.urrutia@kemenacompania.com</span></li></ul></td>
+              <td class="col-note">Correo @kemenacompania.com por persona/área</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Kemen / Correo corporativo (por persona)</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://mail.google.com/" target="_blank" rel="noopener">Gmail (cuentas de gestión)</a><ul class="accounts"><li><span class="persona">Asesoría</span> — <span class="email">asesoriakemen@gmail.com</span></li><li><span class="persona">Facturas</span> — <span class="email">facturaskemen@gmail.com</span></li><li><span class="persona">Social</span> — <span class="email">kemensocial@gmail.com</span></li><li><span class="persona">Nube 1</span> — <span class="email">kemennube@gmail.com</span></li><li><span class="persona">Nube 2</span> — <span class="email">kemennube2@gmail.com</span></li><li><span class="persona">Nube 3</span> — <span class="email">kemennube3@gmail.com</span></li><li><span class="persona">Nube 4</span> — <span class="email">kemennube4@gmail.com</span></li></ul></td>
+              <td class="col-note">Cuentas Gmail usadas para gestión/nube/redes</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Kemen / Gmail</span></td>
+            </tr>
+            <tr>
+              <td class="col-name">Cuenta Windows / Outlook<ul class="accounts"><li><span class="persona">Medios</span> — <span class="email">medios@kemenacompania.com</span></li></ul></td>
+              <td class="col-note">Inicio de sesión en equipos con Windows</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Kemen / Cuenta Outlook</span></td>
+            </tr>
+            <tr>
+              <td class="col-name"><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a><ul class="accounts"><li><span class="persona">Social</span> — <span class="email">kemensocial@gmail.com</span></li></ul></td>
+              <td class="col-note">Página de Facebook de Kemen</td>
+              <td class="col-access"><span class="access">KeePass &rarr; Kemen / Facebook</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Puedes continuar el resto de secciones con la clase wrapper 'table-responsive' en cada tabla -->
+</main>
+
+<footer>Generado a partir del listado de favoritos y de KEMEN.kdbx (solo metadatos, sin contraseñas).</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search');
+    const sections = document.querySelectorAll('section.cat');
+    const noResults = document.getElementById('no-results');
+
+    function filterResults() {
+      const query = searchInput.value.trim().toLowerCase();
+      let totalVisibleSections = 0;
+
+      sections.forEach(section => {
+        const rows = section.querySelectorAll('tbody tr');
+        let visibleRows = 0;
+
+        rows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          const matches = text.includes(query);
+          row.classList.toggle('hidden', !matches);
+          if (matches) visibleRows++;
+        });
+
+        // Actualizar contador visualmente
+        const countBadge = section.querySelector('.count');
+        if (countBadge) {
+          countBadge.textContent = query ? visibleRows : countBadge.getAttribute('data-original');
+        }
+
+        const isSectionVisible = visibleRows > 0;
+        section.classList.toggle('hidden', !isSectionVisible);
+        if (isSectionVisible) totalVisibleSections++;
+      });
+
+      // Mostrar o ocultar mensaje de "sin resultados"
+      if (noResults) {
+        noResults.style.display = totalVisibleSections === 0 ? 'block' : 'none';
+      }
+    }
+
+    // Debounce para optimizar el rendimiento al escribir
+    let debounceTimer;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(filterResults, 150);
+    });
+  });
+</script>
+</body>
+</html>
